@@ -216,15 +216,15 @@ export async function fetchData(url) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(text, "text/html");
 
-    const scriptlist = doc.querySelectorAll(
-      "script[type='application/ld+json']"
-    );
+    // try json way first
+    const jsonResult = await getProductInfo_using_json(doc, url);
 
-    if (scriptlist.length > 0) {
-      return getProductInfo_using_json(doc, url);
-    } else {
-      return getProuctInfo(doc, url);
+    if (jsonResult && jsonResult.slice(0, 3).some((value) => value !== "N/A")) {
+      return jsonResult; // Return if valid result from JSON-LD
     }
+
+    // Fallback to HTML-based extraction if JSON-LD result is insufficient
+    return getProductInfo(doc, url);
   } catch (error) {
     console.error("Error fetching data:", error);
     return ["N/A", "N/A", "N/A", "N/A", url];
