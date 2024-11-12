@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chrome Bookmarks to Google Sheets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            min-width: 500px;
+            min-height: 200px;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+
+        .columns {
+            display: flex;
+            gap: 20px;
+            min-width: 400px;
+            justify-content: space-around;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            min-width: 200px;
+            /* Increased min-width for better structure */
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            /* Added padding for better button appearance */
+            background-color: #696969;
+            /* Button background color */
+            color: white;
+            /* Text color */
+            border: none;
+            /* No border */
+            border-radius: 5px;
+            /* Rounded corners */
+            cursor: pointer;
+            /* Pointer on hover */
+        }
+
+        button:hover {
+            background-color: #45a049;
+            /* Darker green on hover */
+        }
+
+        /* Set equal font size for h1 and h2 */
+        h1,
+        h2 {
+            font-size: 20px;
+            /* Equal font size */
+            margin: 0;
+            /* Remove default margins */
+        }
+
+        label {
+            margin-top: 10px;
+            /* Added margin to labels */
+            display: block;
+            /* Ensure label is a block element */
+        }
+
+        /* Dropdown styling */
+        select {
+            margin-top: 5px;
+            /* Margin above dropdown */
+            padding: 8px;
+            /* Padding inside dropdown */
+            border: 1px solid #ccc;
+            /* Light border */
+            border-radius: 4px;
+            /* Rounded corners */
+            width: 100%;
+            /* Full width to match label */
+            box-sizing: border-box;
+            /* Include padding and border in width */
+        }
+
+        /* Optional: Styling for the input field */
+        input[type="text"] {
+            padding: 8px;
+            /* Padding inside input */
+            border: 1px solid #ccc;
+            /* Light border */
+            border-radius: 4px;
+            /* Rounded corners */
+            margin-top: 5px;
+            /* Spacing above input */
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class='header'>
+            <label for="userInput">Enter Google sheet title you want to make <br /><span>or Google sheet title/id you
+                    want
+                    to write to</span>
+            </label>
+            <input
+                type="text"
+                id="sheetTitleorIDtoCheck"
+                name="userInput"
+                placeholder="Type here..."
+            >
+            <button id="checkSheetBtn">Check</button>
+            <div id="checkSheetstatus"></div>
+            <button
+                id="createSheetBtn"
+                class="hidden"
+            >Create Sheet</button>
+            <div id="createSheetstatus">
+            </div>
+            <button
+                id="selectSheetBtn"
+                class="hidden"
+            >Select Sheet</button>
+            <div id="selectSheetstatus">
+            </div>
+
+
+        </div>
+        <div class=columns>
+            <!-- Left Column -->
+            <div class="column">
+                <h1>Bookmark to Sheet</h1>
+
+                <div
+                    class="dropbtn"
+                    id="dropdown_div"
+                >
+                    <label for="dropdownMenu">Click Bookmark folder to parse:</label>
+                    <select
+                        class="mdl-textfield__input"
+                        name="folders"
+                        id="dropdownMenu"
+                    >
+                        <option value="-1">--</option>
+                    </select>
+                </div>
+                <div id="selectedOption"></div>
+                <div id="numUrls"></div>
+                <button id="parseBtn">Fill Google Sheet</button>
+                <div id="parseStatus"></div>
+            </div>
+
+            <!-- Right Column: User Input Section -->
+            <div class="column">
+                <h2>Sheet to Bookmark</h2>
+                <label for="userInput">Enter column that contains urls:</label>
+                <input
+                    type="text"
+                    id="sheetColumn"
+                    name="userInput"
+                    placeholder="Type here..."
+                >
+                <button id="createBookmarkBtn">Make bookmarks</button>
+                <div id="createBookmarksStatus"></div>
+            </div>
+        </div>
+    </div>
+    <script
+        type="module"
+        src="bookmarks.js"
+    ></script>
+    <script
+        type="module"
+        src="popup.js"
+    ></script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Bookmark Parser",
+  "version": "1.0",
+  "description": "Parse bookmarks to create a Google Sheet with product details.",
+  "permissions": ["bookmarks",  "identity"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+ "icons": {
+   "16": "icon16.png",
+   "32": "icon32.png",
+   "48": "icon48.png",
+   "128": "icon128.png"
+ },
+
+  "host_permissions": ["https://*/*", "http://*/*"],
+  "oauth2": {
+    "client_id": "400985711363-0c4th0cjaom8aqqrn37s6f66qbp1df7q.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/spreadsheets",
+      "https://www.googleapis.com/auth/drive.readonly",
+      "https://www.googleapis.com/auth/drive.file"
+    ]
+  }
+}
