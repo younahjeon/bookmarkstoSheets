@@ -83,8 +83,9 @@ function getProuctInfo(doc, url) {
 
   if (price_div.length > 0) {
     for (let p of price_div) {
-      if (p.innerText.includes("$")) {
-        price = p.innerText.replace("\n", "").trim();
+      const match = p.innerText.match(/[\$\€\£\¥\₹]\s?\d+([.,]\d{2})?/);
+      if (match) {
+        price = match[0].replace("\n", "").trim();
         break;
       }
     }
@@ -96,13 +97,22 @@ function getProuctInfo(doc, url) {
   if (image_div.length > 0) {
     for (let im of image_div) {
       const imgSrc = im.src || im.srcset.split(",")[0];
-      if (
-        imgSrc &&
-        (im.alt.toLowerCase().includes("product") ||
-          titleWords.some((word) => im.alt.toLowerCase().includes(word)))
-      ) {
-        img = im.src;
-        break;
+      if (imgSrc) {
+        // Count the number of titleWords found in im.alt
+        const matchCount = titleWords.reduce((count, word) => {
+          return (
+            count + (im.alt.toLowerCase().includes(word.toLowerCase()) ? 1 : 0)
+          );
+        }, 0);
+
+        // Calculate the percentage of titleWords found in im.alt
+        const matchPercentage = (matchCount / titleWords.length) * 100;
+
+        // Check if match percentage is 50% or higher
+        if (matchPercentage >= 50 || im.alt.toLowerCase().includes("product")) {
+          img = imgSrc;
+          break;
+        }
       }
     }
   }
@@ -216,10 +226,13 @@ export async function fetchData(url) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(text, "text/html");
 
-    // try json way first
-    const jsonResult = await getProductInfo_using_json(doc, url);
+    // Count the number of non N/A results from JSON-LD
+    const jsonCount = jsonResult.slice(0, 4).reduce((count, value) => {
+      return count + (!value.includes("N/A") ? 1 : 0);
+    }, 0);
 
-    if (jsonResult && jsonResult.slice(0, 3).some((value) => value !== "N/A")) {
+    // Check if more than 2 valid results are found from JSON-LD
+    if (jsonCount >= 2) {
       return jsonResult; // Return if valid result from JSON-LD
     }
 
