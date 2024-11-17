@@ -2,7 +2,7 @@ import { displayBookmarks, fetchData } from "./bookmarks.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   const dropdownMenu = document.getElementById("dropdownMenu");
-  const parseBtn = document.getElementById("parseBtn");
+  let parseBtn = document.getElementById("parseBtn");
   const createBookmarkBtn = document.getElementById("createBookmarkBtn");
   const sheetTitleorIDtoCheck = document.getElementById(
     "sheetTitleorIDtoCheck"
@@ -88,6 +88,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     const folderUrls = folderandurls[folderlist[dropdownMenu.value]];
     const numUrlsText = document.getElementById("numUrls");
     numUrlsText.textContent = `There are ${folderUrls.length} URLs in the selected folder.`;
+
+    // Clear any existing event listeners on parseBtn
+    const newParseBtn = parseBtn.cloneNode(true);
+    parseBtn.replaceWith(newParseBtn); // Replace old button with new one
+    parseBtn = newParseBtn;
 
     parseBtn.addEventListener("click", async () => {
       document.getElementById("parseStatus").innerText = "Processing...";
