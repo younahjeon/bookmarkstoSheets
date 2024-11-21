@@ -171,7 +171,7 @@ function getProductInfo_using_json(doc, url) {
       // Extract product name
       title = jsonData["name"] || "N/A";
 
-      let offers = jsonData["offers"] || {};
+      let offers = jsonData["offers"] || jsonData.hasVariant[0]["offers"] || {};
       if (Array.isArray(offers) && offers.length > 0) {
         offers = offers[0];
       }
@@ -191,7 +191,7 @@ function getProductInfo_using_json(doc, url) {
 
       // Extract image URL
 
-      img = jsonData["image"];
+      img = jsonData["image"] || jsonData.hasVariant[0]["image"];
       if (Array.isArray(img)) img = img[0];
       if (typeof img === "object") img = img["url"];
       if (typeof img === "string") {
