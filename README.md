@@ -10,7 +10,8 @@ Generates a Google Sheet listing essential product information (such as product 
 
 Creates a new Chrome bookmark folder from a list of URLs in a specified column of a Google Sheet.
 
-
+You can find this app in the chrome web store:
+https://chromewebstore.google.com/detail/bookmark-parser/gmfinonemdkliplabgoneblifdadlmbp
 
 ## Notes
 
